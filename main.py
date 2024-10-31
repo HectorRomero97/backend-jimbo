@@ -5,6 +5,7 @@ from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 from database import async_engine, AsyncSessionLocal, Base
 from services.user_service import UserService
+from services.product_service import ProductService
 
 app = FastAPI()
 
@@ -22,10 +23,12 @@ async def init_db():
 async def startup():
     await init_db()
 
+#Rutas Usuarios
+
 @app.post("/users/")
-async def create_user(name: str, email: str, db: AsyncSession = Depends(get_db)):
+async def create_user(user_name: str, email: str, db: AsyncSession = Depends(get_db)):
     user_service = UserService(db)
-    return await user_service.create_user(name, email)
+    return await user_service.create_user(user_name, email)
 
 @app.get("/users/{user_id}")
 async def read_user(user_id: int, db: AsyncSession = Depends(get_db)):
@@ -40,3 +43,24 @@ async def read_users(db: AsyncSession = Depends(get_db)):
     user_service = UserService(db)
     users = await user_service.get_users()
     return users
+
+#Rutas Productos
+
+@app.post("/products/")
+async def create_product(product_name: str, price: float ,product_description: str = None ,db: AsyncSession = Depends(get_db)):
+    product_service = ProductService(db)
+    return await product_service.create_product(product_name, price, product_description)
+
+@app.get("/products/{product_id}")
+async def read_product(product_id: int, db: AsyncSession = Depends(get_db)):
+    product_service = ProductService(db)
+    product = await product_service.get_product_by_id(product_id)
+    if product is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    return product
+
+@app.get("/products/")
+async def read_products(db: AsyncSession = Depends(get_db)):
+    product_service = ProductService(db)
+    products = await product_service.get_products()
+    return products

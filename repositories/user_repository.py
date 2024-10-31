@@ -10,7 +10,7 @@ class UserRepository:
         user = User(user_name=user_name, email=email)
         self.db.add(user)
         await self.db.commit()
-        await self.db.refresh(db_user)
+        await self.db.refresh(user)
         return user
 
     async def get_users(self):
