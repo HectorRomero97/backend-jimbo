@@ -1,5 +1,5 @@
 from sqlalchemy import select
-from ..models import users
+from ..models.user import User
 from ..database import database
 
 async def get_users():
