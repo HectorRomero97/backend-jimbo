@@ -12,7 +12,7 @@ pip install pymysql
 
 pip install asyncpg
 
-Solo necesita que exista una base de datos con el nombre jimbo (o cambiar el nombre de la base de datos que esta al final del string de conexion) y configurar la variable:
+Solo necesita que exista una base de datos con el nombre jimbo (o cambiar el nombre de la base de datos que esta al final del string de conexion) y cambiar el string, usuario y contraseña tienen que ser el usuario y contraseña de la conexion a la base de dato:
 
 DATABASE_URL = "mysql+aiomysql://usuario:contraseña@localhost:3306/jimbo"
 
