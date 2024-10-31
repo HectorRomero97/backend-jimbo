@@ -6,8 +6,21 @@ from sqlalchemy.orm import sessionmaker
 from database import async_engine, AsyncSessionLocal, Base
 from services.user_service import UserService
 from services.product_service import ProductService
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = [
+    "http://localhost:3000",  # Cambia este puerto si tu frontend está corriendo en otro puerto
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Permitir los orígenes especificados
+    allow_credentials=True,
+    allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
+    allow_headers=["*"],  # Permitir todos los encabezados
+)
 
 # Obtener Sesion
 async def get_db() -> AsyncSession:
